@@ -228,7 +228,40 @@ const statusText = document.getElementById("statusText");
 async function sendMessage(){
 
   const message = input.value.trim();
+const command = message.toLowerCase();
 
+if (command.includes("what time") || command === "time") {
+    const now = new Date();
+
+    statusText.textContent =
+        "The time is " +
+        now.toLocaleTimeString("en-IN", {
+            hour: "numeric",
+            minute: "2-digit"
+        });
+
+    speak(statusText.textContent);
+    input.value = "";
+    return;
+}
+
+if (command.includes("open google")) {
+    window.open("https://www.google.com", "_blank");
+
+    statusText.textContent = "Opening Google.";
+    speak("Opening Google.");
+    input.value = "";
+    return;
+}
+
+if (command.includes("open youtube")) {
+    window.open("https://www.youtube.com", "_blank");
+
+    statusText.textContent = "Opening YouTube.";
+    speak("Opening YouTube.");
+    input.value = "";
+    return;
+}
   if(!message){
     statusText.textContent = "PLEASE ENTER A COMMAND";
     return;
