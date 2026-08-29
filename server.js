@@ -1,36 +1,33 @@
 const http = require("http");
-const fs = require("fs");
-const path = require("path");
 
 const PORT = process.env.PORT || 3000;
 const API_KEY = process.env.OPENAI_API_KEY;
 
-const server = http.createServer(async (req, res) => {
+const server = http.createServer((req, res) => {
+
+    // Allow GitHub Pages to talk to Render
     res.setHeader("Access-Control-Allow-Origin", "*");
-res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
-res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+    res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
-if (req.method === "OPTIONS") {
-    res.writeHead(204);
-    res.end();
-    return;
-}
-
-    // Show JARVIS website
-    if (req.method === "GET" && req.url === "/") {
-        const html = fs.readFileSync(
-            path.join(__dirname, "index.html")
-        );
-
-        res.writeHead(200, {
-            "Content-Type": "text/html"
-        });
-
-        res.end(html);
+    // Browser check
+    if (req.method === "OPTIONS") {
+        res.writeHead(204);
+        res.end();
         return;
     }
 
-    // Talk to OpenAI
+    // Test the server
+    if (req.method === "GET" && req.url === "/") {
+        res.writeHead(200, {
+            "Content-Type": "text/plain"
+        });
+
+        res.end("JARVIS brain is online.");
+        return;
+    }
+
+    // AI chat
     if (req.method === "POST" && req.url === "/api/chat") {
 
         let body = "";
@@ -43,7 +40,15 @@ if (req.method === "OPTIONS") {
 
             try {
 
-                const data = JSON.parse(body);
+                const { message } = JSON.parse(body);
+
+                if (!message) {
+                    throw new Error("No message received.");
+                }
+
+                if (!API_KEY) {
+                    throw new Error("OPENAI_API_KEY is missing.");
+                }
 
                 const response = await fetch(
                     "https://api.openai.com/v1/responses",
@@ -56,8 +61,17 @@ if (req.method === "OPTIONS") {
                         },
 
                         body: JSON.stringify({
-                            model: "gpt-5.6-luna",
-                            input: data.message
+                            model: "gpt-5",
+                            input: [
+                                {
+                                    role: "system",
+                                    content: "You are JARVIS, a helpful futuristic AI assistant. Keep answers clear and friendly."
+                                },
+                                {
+                                    role: "user",
+                                    content: message
+                                }
+                            ]
                         })
                     }
                 );
@@ -66,8 +80,7 @@ if (req.method === "OPTIONS") {
 
                 if (!response.ok) {
                     throw new Error(
-                        result.error?.message ||
-                        "OpenAI request failed"
+                        result.error?.message || "OpenAI request failed."
                     );
                 }
 
@@ -76,10 +89,12 @@ if (req.method === "OPTIONS") {
                 });
 
                 res.end(JSON.stringify({
-                    reply: result.output_text || "I couldn't generate a response."
+                    reply: result.output_text || "JARVIS could not generate a response."
                 }));
 
             } catch (error) {
+
+                console.error("JARVIS ERROR:", error.message);
 
                 res.writeHead(500, {
                     "Content-Type": "application/json"
@@ -95,9 +110,9 @@ if (req.method === "OPTIONS") {
     }
 
     res.writeHead(404);
-    res.end("Not found");
+    res.end("Not found.");
 });
 
 server.listen(PORT, () => {
-    console.log(`JARVIS is running on port ${PORT}`);
+    console.log("JARVIS brain is live on port " + PORT);
 });
