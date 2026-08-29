@@ -2,717 +2,362 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>JARVIS AI</title>
 
 <style>
-
 *{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Arial, sans-serif;
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:Arial,sans-serif;
 }
 
 body{
-    min-height:100vh;
-    background:
-    radial-gradient(circle at center,#123b33 0%,#071713 35%,#020706 80%);
-    color:#dffff7;
-    overflow:hidden;
+  min-height:100vh;
+  overflow:hidden;
+  color:#dffff7;
+  background:radial-gradient(circle,#123d34,#061512 45%,#020706);
 }
 
-/* TOP BAR */
-
 .topbar{
-    height:70px;
-
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-
-    padding:0 25px;
-
-    border-bottom:1px solid rgba(100,255,220,.2);
-
-    background:rgba(0,10,8,.6);
-
-    backdrop-filter:blur(12px);
+  height:70px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 25px;
+  border-bottom:1px solid #1d5147;
 }
 
 .logo{
-    font-size:24px;
-    font-weight:bold;
-    letter-spacing:5px;
+  font-size:23px;
+  font-weight:bold;
+  letter-spacing:5px;
 }
 
 .status{
-    display:flex;
-    align-items:center;
-    gap:8px;
-
-    font-size:11px;
-    letter-spacing:2px;
+  font-size:11px;
+  letter-spacing:2px;
 }
 
 .dot{
-    width:9px;
-    height:9px;
-
-    border-radius:50%;
-
-    background:#65ffd5;
-
-    box-shadow:0 0 15px #65ffd5;
+  display:inline-block;
+  width:9px;
+  height:9px;
+  border-radius:50%;
+  background:#63ffd5;
+  box-shadow:0 0 15px #63ffd5;
+  margin-right:7px;
 }
-
-/* MAIN */
 
 .main{
-    height:calc(100vh - 70px);
-
-    display:flex;
-    flex-direction:column;
-
-    align-items:center;
-    justify-content:center;
-
-    position:relative;
+  height:calc(100vh - 70px);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
 }
-
-/* SIDE PANELS */
-
-.panel{
-    position:absolute;
-
-    top:35px;
-
-    width:210px;
-
-    padding:18px;
-
-    border-radius:15px;
-
-    border:1px solid rgba(100,255,220,.15);
-
-    background:rgba(5,20,17,.45);
-
-    backdrop-filter:blur(10px);
-}
-
-.left{
-    left:25px;
-}
-
-.right{
-    right:25px;
-}
-
-.panel h3{
-    font-size:11px;
-
-    letter-spacing:2px;
-
-    color:#6ee8ca;
-
-    margin-bottom:15px;
-}
-
-.info{
-    display:flex;
-
-    justify-content:space-between;
-
-    padding:9px 0;
-
-    border-bottom:1px solid rgba(255,255,255,.05);
-
-    font-size:12px;
-}
-
-.value{
-    color:#8effdc;
-}
-
-/* JARVIS CORE */
 
 .core{
-    width:290px;
-    height:290px;
-
-    position:relative;
-
-    display:flex;
-
-    align-items:center;
-    justify-content:center;
+  width:280px;
+  height:280px;
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
-
-/* RINGS */
 
 .ring{
-    position:absolute;
-
-    border-radius:50%;
-
-    border:1px solid rgba(90,255,210,.45);
+  position:absolute;
+  border:1px solid #3ce0bd;
+  border-radius:50%;
 }
 
-.ring1{
-    width:280px;
-    height:280px;
-
-    animation:spin 18s linear infinite;
+.r1{
+  width:280px;
+  height:280px;
+  animation:spin 12s linear infinite;
 }
 
-.ring2{
-    width:230px;
-    height:230px;
-
-    border-style:dashed;
-
-    animation:spinReverse 12s linear infinite;
+.r2{
+  width:220px;
+  height:220px;
+  border-style:dashed;
+  animation:spin 8s linear reverse infinite;
 }
 
-.ring3{
-    width:180px;
-    height:180px;
-
-    border-color:rgba(90,255,210,.75);
-
-    box-shadow:0 0 30px rgba(70,255,210,.25);
+.r3{
+  width:165px;
+  height:165px;
+  box-shadow:0 0 35px #1dbb9b;
 }
-
-/* ORB */
 
 .orb{
-    width:115px;
-    height:115px;
-
-    border-radius:50%;
-
-    background:
-    radial-gradient(
-        circle,
-        #cafff4 0%,
-        #51e8c3 18%,
-        #0c8c73 45%,
-        #03251f 72%
-    );
-
-    box-shadow:
-    0 0 20px #46e6c0,
-    0 0 60px rgba(70,230,192,.5),
-    0 0 110px rgba(70,230,192,.25);
-
-    animation:pulse 2.5s ease-in-out infinite;
+  width:105px;
+  height:105px;
+  border-radius:50%;
+  background:radial-gradient(circle,#d5fff7,#43dfbb 25%,#08715f 60%,#031d18);
+  box-shadow:0 0 25px #49edc5,0 0 80px #168b73;
+  animation:pulse 2s infinite;
 }
 
-/* ORBIT */
-
-.orbit{
-    position:absolute;
-
-    width:100%;
-    height:100%;
-
-    animation:spin 8s linear infinite;
+.title{
+  margin-top:25px;
+  text-align:center;
 }
 
-.orbit span{
-    position:absolute;
-
-    width:7px;
-    height:7px;
-
-    border-radius:50%;
-
-    background:#7affdd;
-
-    box-shadow:0 0 15px #7affdd;
+.title h1{
+  font-size:32px;
+  letter-spacing:8px;
 }
 
-.orbit span:nth-child(1){
-    top:8px;
-    left:50%;
+.title p{
+  margin-top:10px;
+  font-size:12px;
+  letter-spacing:3px;
+  color:#72d9c0;
 }
-
-.orbit span:nth-child(2){
-    bottom:28px;
-    right:8px;
-}
-
-.orbit span:nth-child(3){
-    bottom:20px;
-    left:18px;
-}
-
-/* TEXT */
-
-.greeting{
-    margin-top:30px;
-
-    text-align:center;
-}
-
-.greeting h1{
-    font-size:32px;
-
-    letter-spacing:7px;
-
-    font-weight:500;
-}
-
-.greeting p{
-    margin-top:12px;
-
-    color:#6ed7bf;
-
-    font-size:13px;
-
-    letter-spacing:3px;
-}
-
-/* COMMAND BAR */
 
 .command{
-    position:absolute;
-
-    bottom:30px;
-
-    width:min(650px,90%);
-
-    display:flex;
-
-    gap:10px;
+  position:absolute;
+  bottom:25px;
+  width:min(680px,92%);
+  display:flex;
+  gap:8px;
 }
 
 .command input{
-    flex:1;
-
-    height:52px;
-
-    border-radius:12px;
-
-    border:1px solid rgba(100,255,220,.25);
-
-    background:rgba(4,20,17,.75);
-
-    color:white;
-
-    padding:0 18px;
-
-    outline:none;
-
-    font-size:14px;
+  flex:1;
+  height:52px;
+  padding:0 16px;
+  border-radius:12px;
+  border:1px solid #285d52;
+  outline:none;
+  background:#071a16;
+  color:white;
+  font-size:14px;
 }
-
-.command input:focus{
-    border-color:#55eac7;
-
-    box-shadow:
-    0 0 20px rgba(70,230,192,.15);
-}
-
-/* BUTTONS */
 
 .command button{
-    width:52px;
-
-    height:52px;
-
-    border:none;
-
-    border-radius:12px;
-
-    background:#124f43;
-
-    color:#aaffeb;
-
-    font-size:20px;
-
-    cursor:pointer;
-
-    transition:.2s;
+  width:52px;
+  height:52px;
+  border:1px solid #286b5b;
+  border-radius:12px;
+  background:#0d3d33;
+  color:#baffed;
+  font-size:20px;
+  cursor:pointer;
 }
 
-.command button:hover{
-    background:#197662;
-
-    box-shadow:
-    0 0 20px rgba(70,230,192,.35);
+.command button:active{
+  transform:scale(.94);
 }
-
-/* ANIMATIONS */
 
 @keyframes spin{
-
-    from{
-        transform:rotate(0deg);
-    }
-
-    to{
-        transform:rotate(360deg);
-    }
-
-}
-
-@keyframes spinReverse{
-
-    from{
-        transform:rotate(360deg);
-    }
-
-    to{
-        transform:rotate(0deg);
-    }
-
+  from{transform:rotate(0)}
+  to{transform:rotate(360deg)}
 }
 
 @keyframes pulse{
-
-    0%,100%{
-        transform:scale(1);
-    }
-
-    50%{
-        transform:scale(1.08);
-    }
-
+  0%,100%{transform:scale(1)}
+  50%{transform:scale(1.08)}
 }
-
-/* MOBILE */
-
-@media(max-width:700px){
-
-    .panel{
-        display:none;
-    }
-
-    .core{
-        transform:scale(.82);
-    }
-
-    .greeting h1{
-        font-size:25px;
-    }
-
-    .command{
-        width:92%;
-    }
-
-}
-
 </style>
 </head>
 
 <body>
 
-<!-- TOP -->
-
 <header class="topbar">
+  <div class="logo">J.A.R.V.I.S</div>
 
-    <div class="logo">
-        J.A.R.V.I.S
-    </div>
-
-    <div class="status">
-
-        <span class="dot"></span>
-
-        SYSTEM ONLINE
-
-    </div>
-
+  <div class="status">
+    <span class="dot"></span>
+    SYSTEM ONLINE
+  </div>
 </header>
-
-
-<!-- MAIN -->
 
 <main class="main">
 
-
-<!-- LEFT PANEL -->
-
-<section class="panel left">
-
-    <h3>SYSTEM STATUS</h3>
-
-    <div class="info">
-        <span>CORE</span>
-        <span class="value">ONLINE</span>
-    </div>
-
-    <div class="info">
-        <span>NETWORK</span>
-        <span class="value">CONNECTED</span>
-    </div>
-
-    <div class="info">
-        <span>AI</span>
-        <span class="value">STANDBY</span>
-    </div>
-
-    <div class="info">
-        <span>VOICE</span>
-        <span class="value">READY</span>
-    </div>
-
-</section>
-
-
-<!-- RIGHT PANEL -->
-
-<section class="panel right">
-
-    <h3>JARVIS CORE</h3>
-
-    <div class="info">
-        <span>MODE</span>
-        <span class="value">IDLE</span>
-    </div>
-
-    <div class="info">
-        <span>POWER</span>
-        <span class="value">100%</span>
-    </div>
-
-    <div class="info">
-        <span>SECURITY</span>
-        <span class="value">ACTIVE</span>
-    </div>
-
-    <div class="info">
-        <span>MEMORY</span>
-        <span class="value">READY</span>
-    </div>
-
-</section>
-
-
-<!-- JARVIS CORE -->
-
-<div class="core">
-
-    <div class="ring ring1"></div>
-
-    <div class="ring ring2"></div>
-
-    <div class="ring ring3"></div>
-
-    <div class="orbit">
-
-        <span></span>
-        <span></span>
-        <span></span>
-
-    </div>
-
+  <div class="core">
+    <div class="ring r1"></div>
+    <div class="ring r2"></div>
+    <div class="ring r3"></div>
     <div class="orb"></div>
+  </div>
 
-</div>
-
-
-<!-- GREETING -->
-
-<div class="greeting">
-
+  <div class="title">
     <h1>JARVIS</h1>
+    <p id="statusText">AWAITING COMMAND</p>
+  </div>
 
-    <p id="statusText">
-        AWAITING COMMAND
-    </p>
+  <div class="command">
 
-</div>
-
-
-<!-- COMMAND -->
-
-<div class="command">
-
-    <button id="micButton" onclick="startListening()">
-        🎙️
-    </button>
+    <button id="micButton" type="button">🎙️</button>
 
     <input
-        id="commandInput"
-        type="text"
-        placeholder="Enter a command..."
+      id="commandInput"
+      type="text"
+      placeholder="Enter a command..."
+      autocomplete="off"
     >
 
-    <button onclick="activate()">
-        ➤
-    </button>
+    <button id="sendButton" type="button">➤</button>
 
-</div>
-
+  </div>
 
 </main>
 
-
 <script>
 
-/* SEND BUTTON */
+/* =========================
+   JARVIS SETTINGS
+========================= */
 
-async function activate(){
+const RENDER_URL = "https://jarvis-ai-advanced.onrender.com/";
 
-    const input = document.getElementById("commandInput");
-    const status = document.getElementById("statusText");
+const input = document.getElementById("commandInput");
+const sendButton = document.getElementById("sendButton");
+const micButton = document.getElementById("micButton");
+const statusText = document.getElementById("statusText");
 
-    const message = input.value.trim();
 
-    if(message === ""){
-        status.innerText = "PLEASE ENTER A COMMAND";
-        return;
+/* =========================
+   SEND BUTTON
+========================= */
+
+async function sendMessage(){
+
+  const message = input.value.trim();
+
+  if(!message){
+    statusText.textContent = "PLEASE ENTER A COMMAND";
+    return;
+  }
+
+  statusText.textContent = "JARVIS IS THINKING...";
+  sendButton.disabled = true;
+
+  try{
+
+    const response = await fetch(
+      RENDER_URL + "/api/chat",
+      {
+        method:"POST",
+
+        headers:{
+          "Content-Type":"application/json"
+        },
+
+        body:JSON.stringify({
+          message:message
+        })
+      }
+    );
+
+    const data = await response.json();
+
+    if(!response.ok){
+      throw new Error(data.error || "Server error");
     }
 
-    status.innerText = "JARVIS IS THINKING...";
+    statusText.textContent =
+      data.reply || "JARVIS received your command.";
 
-    try{
+    input.value = "";
 
-        const response = await fetch("https://jarvis-ai-advanced.onrender.com//api/chat", {
-            method: "POST",
+  }catch(error){
 
-            headers: {
-                "Content-Type": "application/json"
-            },
+    console.error(error);
 
-            body: JSON.stringify({
-                message: message
-            })
-        });
+    statusText.textContent =
+      "CONNECTION ERROR";
 
-        const data = await response.json();
+  }finally{
 
-        if(data.error){
-            throw new Error(data.error);
-        }
+    sendButton.disabled = false;
 
-        status.innerText = data.reply;
-
-        input.value = "";
-
-    }catch(error){
-
-        console.error(error);
-
-        status.innerText =
-            "JARVIS CONNECTION ERROR";
-
-    }
-}
-
-    const input =
-    document.getElementById("commandInput");
-
-    const status =
-    document.getElementById("statusText");
-
-    if(input.value.trim()===""){
-
-        status.innerText =
-        "PLEASE ENTER A COMMAND";
-
-        return;
-    }
-
-    console.log("Command:",input.value);
-
-    status.innerText =
-    "COMMAND RECEIVED";
-
-    input.value="";
-
+  }
 }
 
 
-/* ENTER KEY */
+/* =========================
+   SEND BUTTON CLICK
+========================= */
 
-document
-.getElementById("commandInput")
-.addEventListener("keydown",function(e){
+sendButton.addEventListener("click",sendMessage);
 
-    if(e.key==="Enter"){
 
-        activate();
+/* =========================
+   ENTER KEY
+========================= */
 
-    }
+input.addEventListener("keydown",(event)=>{
+
+  if(event.key === "Enter"){
+    sendMessage();
+  }
 
 });
 
 
-/* MICROPHONE */
+/* =========================
+   MICROPHONE
+========================= */
 
-function startListening(){
+micButton.addEventListener("click",()=>{
 
-    const SpeechRecognition =
+  const SpeechRecognition =
     window.SpeechRecognition ||
     window.webkitSpeechRecognition;
 
-    if(!SpeechRecognition){
+  if(!SpeechRecognition){
 
-        alert(
-        "Voice recognition is not supported in this browser."
-        );
+    statusText.textContent =
+      "VOICE RECOGNITION NOT SUPPORTED";
 
-        return;
-    }
+    return;
+  }
 
-    const recognition =
+  const recognition =
     new SpeechRecognition();
 
-    recognition.lang="en-IN";
+  recognition.lang = "en-IN";
+  recognition.continuous = false;
+  recognition.interimResults = false;
 
-    recognition.continuous=false;
+  micButton.textContent = "🔴";
+  statusText.textContent = "LISTENING...";
 
-    recognition.interimResults=false;
+  recognition.start();
 
-    const mic =
-    document.getElementById("micButton");
+  recognition.onresult = (event)=>{
 
-    const status =
-    document.getElementById("statusText");
+    const text =
+      event.results[0][0].transcript;
 
-    mic.innerText="🔴";
+    input.value = text;
 
-    status.innerText="LISTENING...";
+    statusText.textContent =
+      "VOICE COMMAND RECEIVED";
 
-    recognition.start();
+  };
 
+  recognition.onerror = (event)=>{
 
-    recognition.onresult=function(event){
+    console.log("Microphone error:",event.error);
 
-        const text =
-        event.results[0][0].transcript;
+    statusText.textContent =
+      "MICROPHONE ERROR";
 
-        document
-        .getElementById("commandInput")
-        .value=text;
+  };
 
-        status.innerText=
-        "VOICE COMMAND RECEIVED";
+  recognition.onend = ()=>{
 
-    };
+    micButton.textContent = "🎙️";
 
+  };
 
-    recognition.onerror=function(){
-
-        status.innerText=
-        "MICROPHONE ERROR";
-
-        mic.innerText="🎙️";
-
-    };
-
-
-    recognition.onend=function(){
-
-        mic.innerText="🎙️";
-
-    };
-
-}
+});
 
 </script>
 
