@@ -555,7 +555,53 @@ body{
 
 /* SEND BUTTON */
 
-function activate(){
+async function activate(){
+
+    const input = document.getElementById("commandInput");
+    const status = document.getElementById("statusText");
+
+    const message = input.value.trim();
+
+    if(message === ""){
+        status.innerText = "PLEASE ENTER A COMMAND";
+        return;
+    }
+
+    status.innerText = "JARVIS IS THINKING...";
+
+    try{
+
+        const response = await fetch("/api/chat", {
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify({
+                message: message
+            })
+        });
+
+        const data = await response.json();
+
+        if(data.error){
+            throw new Error(data.error);
+        }
+
+        status.innerText = data.reply;
+
+        input.value = "";
+
+    }catch(error){
+
+        console.error(error);
+
+        status.innerText =
+            "JARVIS CONNECTION ERROR";
+
+    }
+}
 
     const input =
     document.getElementById("commandInput");
