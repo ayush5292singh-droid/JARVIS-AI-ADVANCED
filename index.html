@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>JARVIS AI</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
+}
+
+body{
+    min-height:100vh;
+    background:
+    radial-gradient(circle at center,#123b33 0%,#071713 35%,#020706 80%);
+    color:#dffff7;
+    overflow:hidden;
+}
+
+/* TOP BAR */
+
+.topbar{
+    height:70px;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    padding:0 25px;
+
+    border-bottom:1px solid rgba(100,255,220,.2);
+
+    background:rgba(0,10,8,.6);
+
+    backdrop-filter:blur(12px);
+}
+
+.logo{
+    font-size:24px;
+    font-weight:bold;
+    letter-spacing:5px;
+}
+
+.status{
+    display:flex;
+    align-items:center;
+    gap:8px;
+
+    font-size:11px;
+    letter-spacing:2px;
+}
+
+.dot{
+    width:9px;
+    height:9px;
+
+    border-radius:50%;
+
+    background:#65ffd5;
+
+    box-shadow:0 0 15px #65ffd5;
+}
+
+/* MAIN */
+
+.main{
+    height:calc(100vh - 70px);
+
+    display:flex;
+    flex-direction:column;
+
+    align-items:center;
+    justify-content:center;
+
+    position:relative;
+}
+
+/* SIDE PANELS */
+
+.panel{
+    position:absolute;
+
+    top:35px;
+
+    width:210px;
+
+    padding:18px;
+
+    border-radius:15px;
+
+    border:1px solid rgba(100,255,220,.15);
+
+    background:rgba(5,20,17,.45);
+
+    backdrop-filter:blur(10px);
+}
+
+.left{
+    left:25px;
+}
+
+.right{
+    right:25px;
+}
+
+.panel h3{
+    font-size:11px;
+
+    letter-spacing:2px;
+
+    color:#6ee8ca;
+
+    margin-bottom:15px;
+}
+
+.info{
+    display:flex;
+
+    justify-content:space-between;
+
+    padding:9px 0;
+
+    border-bottom:1px solid rgba(255,255,255,.05);
+
+    font-size:12px;
+}
+
+.value{
+    color:#8effdc;
+}
+
+/* JARVIS CORE */
+
+.core{
+    width:290px;
+    height:290px;
+
+    position:relative;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+}
+
+/* RINGS */
+
+.ring{
+    position:absolute;
+
+    border-radius:50%;
+
+    border:1px solid rgba(90,255,210,.45);
+}
+
+.ring1{
+    width:280px;
+    height:280px;
+
+    animation:spin 18s linear infinite;
+}
+
+.ring2{
+    width:230px;
+    height:230px;
+
+    border-style:dashed;
+
+    animation:spinReverse 12s linear infinite;
+}
+
+.ring3{
+    width:180px;
+    height:180px;
+
+    border-color:rgba(90,255,210,.75);
+
+    box-shadow:0 0 30px rgba(70,255,210,.25);
+}
+
+/* ORB */
+
+.orb{
+    width:115px;
+    height:115px;
+
+    border-radius:50%;
+
+    background:
+    radial-gradient(
+        circle,
+        #cafff4 0%,
+        #51e8c3 18%,
+        #0c8c73 45%,
+        #03251f 72%
+    );
+
+    box-shadow:
+    0 0 20px #46e6c0,
+    0 0 60px rgba(70,230,192,.5),
+    0 0 110px rgba(70,230,192,.25);
+
+    animation:pulse 2.5s ease-in-out infinite;
+}
+
+/* ORBIT */
+
+.orbit{
+    position:absolute;
+
+    width:100%;
+    height:100%;
+
+    animation:spin 8s linear infinite;
+}
+
+.orbit span{
+    position:absolute;
+
+    width:7px;
+    height:7px;
+
+    border-radius:50%;
+
+    background:#7affdd;
+
+    box-shadow:0 0 15px #7affdd;
+}
+
+.orbit span:nth-child(1){
+    top:8px;
+    left:50%;
+}
+
+.orbit span:nth-child(2){
+    bottom:28px;
+    right:8px;
+}
+
+.orbit span:nth-child(3){
+    bottom:20px;
+    left:18px;
+}
+
+/* TEXT */
+
+.greeting{
+    margin-top:30px;
+
+    text-align:center;
+}
+
+.greeting h1{
+    font-size:32px;
+
+    letter-spacing:7px;
+
+    font-weight:500;
+}
+
+.greeting p{
+    margin-top:12px;
+
+    color:#6ed7bf;
+
+    font-size:13px;
+
+    letter-spacing:3px;
+}
+
+/* COMMAND BAR */
+
+.command{
+    position:absolute;
+
+    bottom:30px;
+
+    width:min(650px,90%);
+
+    display:flex;
+
+    gap:10px;
+}
+
+.command input{
+    flex:1;
+
+    height:52px;
+
+    border-radius:12px;
+
+    border:1px solid rgba(100,255,220,.25);
+
+    background:rgba(4,20,17,.75);
+
+    color:white;
+
+    padding:0 18px;
+
+    outline:none;
+
+    font-size:14px;
+}
+
+.command input:focus{
+    border-color:#55eac7;
+
+    box-shadow:
+    0 0 20px rgba(70,230,192,.15);
+}
+
+/* BUTTONS */
+
+.command button{
+    width:52px;
+
+    height:52px;
+
+    border:none;
+
+    border-radius:12px;
+
+    background:#124f43;
+
+    color:#aaffeb;
+
+    font-size:20px;
+
+    cursor:pointer;
+
+    transition:.2s;
+}
+
+.command button:hover{
+    background:#197662;
+
+    box-shadow:
+    0 0 20px rgba(70,230,192,.35);
+}
+
+/* ANIMATIONS */
+
+@keyframes spin{
+
+    from{
+        transform:rotate(0deg);
+    }
+
+    to{
+        transform:rotate(360deg);
+    }
+
+}
+
+@keyframes spinReverse{
+
+    from{
+        transform:rotate(360deg);
+    }
+
+    to{
+        transform:rotate(0deg);
+    }
+
+}
+
+@keyframes pulse{
+
+    0%,100%{
+        transform:scale(1);
+    }
+
+    50%{
+        transform:scale(1.08);
+    }
+
+}
+
+/* MOBILE */
+
+@media(max-width:700px){
+
+    .panel{
+        display:none;
+    }
+
+    .core{
+        transform:scale(.82);
+    }
+
+    .greeting h1{
+        font-size:25px;
+    }
+
+    .command{
+        width:92%;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- TOP -->
+
+<header class="topbar">
+
+    <div class="logo">
+        J.A.R.V.I.S
+    </div>
+
+    <div class="status">
+
+        <span class="dot"></span>
+
+        SYSTEM ONLINE
+
+    </div>
+
+</header>
+
+
+<!-- MAIN -->
+
+<main class="main">
+
+
+<!-- LEFT PANEL -->
+
+<section class="panel left">
+
+    <h3>SYSTEM STATUS</h3>
+
+    <div class="info">
+        <span>CORE</span>
+        <span class="value">ONLINE</span>
+    </div>
+
+    <div class="info">
+        <span>NETWORK</span>
+        <span class="value">CONNECTED</span>
+    </div>
+
+    <div class="info">
+        <span>AI</span>
+        <span class="value">STANDBY</span>
+    </div>
+
+    <div class="info">
+        <span>VOICE</span>
+        <span class="value">READY</span>
+    </div>
+
+</section>
+
+
+<!-- RIGHT PANEL -->
+
+<section class="panel right">
+
+    <h3>JARVIS CORE</h3>
+
+    <div class="info">
+        <span>MODE</span>
+        <span class="value">IDLE</span>
+    </div>
+
+    <div class="info">
+        <span>POWER</span>
+        <span class="value">100%</span>
+    </div>
+
+    <div class="info">
+        <span>SECURITY</span>
+        <span class="value">ACTIVE</span>
+    </div>
+
+    <div class="info">
+        <span>MEMORY</span>
+        <span class="value">READY</span>
+    </div>
+
+</section>
+
+
+<!-- JARVIS CORE -->
+
+<div class="core">
+
+    <div class="ring ring1"></div>
+
+    <div class="ring ring2"></div>
+
+    <div class="ring ring3"></div>
+
+    <div class="orbit">
+
+        <span></span>
+        <span></span>
+        <span></span>
+
+    </div>
+
+    <div class="orb"></div>
+
+</div>
+
+
+<!-- GREETING -->
+
+<div class="greeting">
+
+    <h1>JARVIS</h1>
+
+    <p id="statusText">
+        AWAITING COMMAND
+    </p>
+
+</div>
+
+
+<!-- COMMAND -->
+
+<div class="command">
+
+    <button id="micButton" onclick="startListening()">
+        🎙️
+    </button>
+
+    <input
+        id="commandInput"
+        type="text"
+        placeholder="Enter a command..."
+    >
+
+    <button onclick="activate()">
+        ➤
+    </button>
+
+</div>
+
+
+</main>
+
+
+<script>
+
+/* SEND BUTTON */
+
+function activate(){
+
+    const input =
+    document.getElementById("commandInput");
+
+    const status =
+    document.getElementById("statusText");
+
+    if(input.value.trim()===""){
+
+        status.innerText =
+        "PLEASE ENTER A COMMAND";
+
+        return;
+    }
+
+    console.log("Command:",input.value);
+
+    status.innerText =
+    "COMMAND RECEIVED";
+
+    input.value="";
+
+}
+
+
+/* ENTER KEY */
+
+document
+.getElementById("commandInput")
+.addEventListener("keydown",function(e){
+
+    if(e.key==="Enter"){
+
+        activate();
+
+    }
+
+});
+
+
+/* MICROPHONE */
+
+function startListening(){
+
+    const SpeechRecognition =
+    window.SpeechRecognition ||
+    window.webkitSpeechRecognition;
+
+    if(!SpeechRecognition){
+
+        alert(
+        "Voice recognition is not supported in this browser."
+        );
+
+        return;
+    }
+
+    const recognition =
+    new SpeechRecognition();
+
+    recognition.lang="en-IN";
+
+    recognition.continuous=false;
+
+    recognition.interimResults=false;
+
+    const mic =
+    document.getElementById("micButton");
+
+    const status =
+    document.getElementById("statusText");
+
+    mic.innerText="🔴";
+
+    status.innerText="LISTENING...";
+
+    recognition.start();
+
+
+    recognition.onresult=function(event){
+
+        const text =
+        event.results[0][0].transcript;
+
+        document
+        .getElementById("commandInput")
+        .value=text;
+
+        status.innerText=
+        "VOICE COMMAND RECEIVED";
+
+    };
+
+
+    recognition.onerror=function(){
+
+        status.innerText=
+        "MICROPHONE ERROR";
+
+        mic.innerText="🎙️";
+
+    };
+
+
+    recognition.onend=function(){
+
+        mic.innerText="🎙️";
+
+    };
+
+}
+
+</script>
+
+</body>
+</html>
