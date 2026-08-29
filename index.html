@@ -264,15 +264,15 @@ async function sendMessage(){
       data.reply || "JARVIS received your command.";
 
     input.value = "";
-
-  }catch(error){
+    }catch(error){
 
     console.error(error);
 
     statusText.textContent =
-      "CONNECTION ERROR";
+        "ERROR: " + error.message;
 
-  }finally{
+}
+finally{
 
     sendButton.disabled = false;
 
