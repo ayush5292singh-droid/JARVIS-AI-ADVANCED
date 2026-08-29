@@ -262,7 +262,7 @@ async function sendMessage(){
 
     statusText.textContent =
       data.reply || "JARVIS received your command.";
-
+speak(data.reply);
     input.value = "";
     }catch(error){
 
@@ -360,6 +360,21 @@ micButton.addEventListener("click",()=>{
 });
 
 </script>
+function speak(text) {
 
+    if (!("speechSynthesis" in window)) {
+        return;
+    }
+
+    window.speechSynthesis.cancel();
+
+    const voice = new SpeechSynthesisUtterance(text);
+
+    voice.lang = "en-IN";
+    voice.rate = 0.95;
+    voice.pitch = 0.9;
+
+    window.speechSynthesis.speak(voice);
+}
 </body>
 </html>
