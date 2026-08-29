@@ -358,7 +358,72 @@ micButton.addEventListener("click",()=>{
   };
 
 });
+let jarvisListening = false;
 
+function startJarvisWakeWord() {
+
+    const SpeechRecognition =
+        window.SpeechRecognition ||
+        window.webkitSpeechRecognition;
+
+    if (!SpeechRecognition) {
+        statusText.textContent =
+            "VOICE RECOGNITION NOT SUPPORTED";
+        return;
+    }
+
+    const recognition = new SpeechRecognition();
+
+    recognition.lang = "en-IN";
+    recognition.continuous = true;
+    recognition.interimResults = true;
+
+    recognition.onstart = () => {
+        jarvisListening = true;
+        statusText.textContent = "LISTENING FOR JARVIS...";
+    };
+
+    recognition.onresult = (event) => {
+
+        let text = "";
+
+        for (let i = event.resultIndex;
+             i < event.results.length;
+             i++) {
+
+            text += event.results[i][0].transcript;
+        }
+
+        text = text.toLowerCase();
+
+        if (text.includes("jarvis")) {
+
+            statusText.textContent =
+                "JARVIS ACTIVATED";
+
+            input.value =
+                text.replace("jarvis", "").trim();
+
+            if (input.value) {
+                sendMessage();
+            }
+        }
+    };
+
+    recognition.onend = () => {
+
+        if (jarvisListening) {
+            recognition.start();
+        }
+    };
+
+    recognition.onerror = (event) => {
+        console.log("Wake word error:", event.error);
+    };
+
+    recognition.start();
+}
+  startJarvisWakeWord();
 </script>
 function speak(text) {
 
